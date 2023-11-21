@@ -1,0 +1,14 @@
+{
+    "databases": [
+        {
+            "nome" : "SICREDI",
+            "create" : "if_not_exists",
+            "grants" : [
+                {
+                    "usuario" : "pensar_",
+                    "privilegios" : ["ALL PRIVILEGES"]
+                }
+            ] 
+        }
+    ]
+}

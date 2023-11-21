@@ -1,0 +1,174 @@
+{
+    "tables": [
+      {
+        "name": "associado",
+        "columns": [
+          {
+            "name": "id",
+            "type": "int",
+            "auto_increment": true,
+            "not_null": true
+          },
+          {
+            "name": "nome",
+            "type": "varchar(100)",
+            "not_null": true
+          },
+          {
+            "name": "sobrenome",
+            "type": "varchar(100)",
+            "not_null": true
+          },
+          {
+            "name": "idade",
+            "type": "int",
+            "default_value": null
+          },
+          {
+            "name": "email",
+            "type": "varchar(200)",
+            "not_null": true
+          }
+        ],
+        "primary_key": {
+          "columns": ["id"]
+        },
+        "engine": "InnoDB",
+        "auto_increment": 501,
+        "charset": "utf8mb4"
+      },
+      {
+        "name": "conta",
+        "columns": [
+          {
+            "name": "id",
+            "type": "int",
+            "auto_increment": true,
+            "not_null": true
+          },
+          {
+            "name": "tipo",
+            "type": "varchar(10)",
+            "not_null": true
+          },
+          {
+            "name": "data_criacao",
+            "type": "timestamp",
+            "not_null": true
+          },
+          {
+            "name": "id_associado",
+            "type": "int",
+            "not_null": true
+          }
+        ],
+        "primary_key": {
+          "columns": ["id"]
+        },
+        "foreign_keys": [
+          {
+            "columns": ["id_associado"],
+            "referenced_table": "associado",
+            "referenced_columns": ["id"]
+          }
+        ],
+        "engine": "InnoDB",
+        "auto_increment": 501,
+        "charset": "utf8mb4"
+      },
+      {
+        "name": "cartao",
+        "columns": [
+          {
+            "name": "id",
+            "type": "int",
+            "auto_increment": true,
+            "not_null": true
+          },
+          {
+            "name": "num_cartao",
+            "type": "bigint",
+            "not_null": true
+          },
+          {
+            "name": "nom_impresso",
+            "type": "varchar(100)",
+            "not_null": true
+          },
+          {
+            "name": "id_conta",
+            "type": "int",
+            "default_value": null
+          },
+          {
+            "name": "id_associado",
+            "type": "int",
+            "default_value": null
+          }
+        ],
+        "primary_key": {
+          "columns": ["id"]
+        },
+        "foreign_keys": [
+          {
+            "columns": ["id_conta"],
+            "referenced_table": "conta",
+            "referenced_columns": ["id"]
+          },
+          {
+            "columns": ["id_associado"],
+            "referenced_table": "associado",
+            "referenced_columns": ["id"]
+          }
+        ],
+        "engine": "InnoDB",
+        "auto_increment": 1001,
+        "charset": "utf8mb4"
+      },
+      {
+        "name": "movimento",
+        "columns": [
+          {
+            "name": "id",
+            "type": "int",
+            "auto_increment": true,
+            "not_null": true
+          },
+          {
+            "name": "vlr_transacao",
+            "type": "decimal(10,2)",
+            "not_null": true
+          },
+          {
+            "name": "des_transacao",
+            "type": "varchar(100)",
+            "not_null": true
+          },
+          {
+            "name": "data_movimento",
+            "type": "timestamp",
+            "not_null": true
+          },
+          {
+            "name": "id_cartao",
+            "type": "int",
+            "default_value": null
+          }
+        ],
+        "primary_key": {
+          "columns": ["id"]
+        },
+        "foreign_keys": [
+          {
+            "columns": ["id_cartao"],
+            "referenced_table": "cartao",
+            "referenced_columns": ["id"]
+          }
+        ],
+        "engine": "InnoDB",
+        "auto_increment": 501,
+        "charset": "utf8mb4"
+      }
+    ]
+}
+  

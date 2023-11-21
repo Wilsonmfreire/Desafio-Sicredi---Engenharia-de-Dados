@@ -1,0 +1,57 @@
+# Copyright VMware, Inc.
+# SPDX-License-Identifier: APACHE-2.0
+
+version: '3.9'
+
+services:
+  database:
+    container_name: db01
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=1234
+      - MYSQL_USER=demostenes
+      - MYSQL_PASSWORD=1234
+    ports:
+      - '3336:3306'
+    expose:
+      - '3336'
+    volumes:
+      - "./initdb:/docker-entrypoint-initdb.d"
+  spark:
+    container_name: spark-master
+    image: docker.io/bitnami/spark:3
+    depends_on:
+      - database
+    environment:
+      - SPARK_MODE=master
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
+      - SPARK_USER=spark
+    # ports:
+      # - '8080:8080'
+      # - '7077:7077'
+    volumes:
+      - './runner.py:/opt/bitnami/spark/jobs/runner.py'
+      - './jars/mysql-connector.jar:/opt/bitnami/spark/jars/mysql-connector.jar'
+  spark-worker-a:
+    image: docker.io/bitnami/spark:3
+    container_name: spark-worker-a
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark:7077
+      - SPARK_WORKER_MEMORY=1G
+      - SPARK_WORKER_CORES=1
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
+      - SPARK_USER=spark
+    volumes:
+      - './runner.py:/opt/bitnami/spark/jobs/runner.py'
+      - './jars/mysql-connector.jar:/opt/bitnami/spark/jars/mysql-connector.jar'
+    depends_on:
+      - spark
