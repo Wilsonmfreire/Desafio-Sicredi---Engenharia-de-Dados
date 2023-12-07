@@ -1,4 +1,4 @@
-# Desafio-Sicredi---Engenharia-de-Dados
+# Desafio-Sicredi-Engenharia-de-Dados
 Este projeto demonstra como criar um pipeline de ETL para um Data Lake usando um framework de processamento distribuído para Big Data.
 
 ## Desafio:
